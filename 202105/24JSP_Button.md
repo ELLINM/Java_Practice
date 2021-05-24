@@ -1,6 +1,6 @@
 Button
 ======
-- type이 button인 요소를 찾는것
+- type이 button인 요소를 선택하는 선택지
 
 
 문법
