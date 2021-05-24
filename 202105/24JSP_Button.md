@@ -39,3 +39,5 @@ type이 button이면서 class 값으로 xy를 갖는 요소를 선택
   </body>
 </html>
 ~~~
+
+type이 button인 요소의 글자 모양을 기울임꼴로 만들고, 클래스 값이 ab면서 type이 button인 요소의 글자 색은 빨간색으로 작성
