@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="utf-8">
+        <title>jQuery</title>
+        <style>
+            div{
+                border: 1px solid #444444;
+            }
+
+            div.a{
+                width: 500px;
+            }
+
+            div.b{
+                width: 500px;
+                padding: 10px;
+            }
+
+            div.c{
+                width: 500px;
+                padding: 10px;
+                margin: 10px;
+            }
+        </style>
+        <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                var jbWidth1 = $('div.a').width();
+                var jbInnerWidth1 = $('div.a').innerWidth();
+                var jbOuterWidth1 = $('div.a').outerWidth();
+                $('div.a').after('<p>Width = ' + jbWidth1 + ', InnerWidth = ' + jbInnerWidth1 + ', Outer Width = ' + jbOuterWidth1 + '<p>');
+                
+                var jbWidth2 = $('div.b').width();
+                var jbInnerWidth2 = $('div.b').innerWidth();
+                var jbOuterWidth2 = $('div.b').outerWidth();
+                $('div.b').after('<p>Width = ' + jbWidth2 + ', InnerWidth = ' + jbInnerWidth2 + ', Outer Width = ' + jbOuterWidth2 + '<p>');
+                
+                var jbWidth3 = $('div.c').width();
+                var jbInnerWidth3 = $('div.c').innerWidth();
+                var jbOuterWidth3 = $('div.c').outerWidth();
+                $('div.c').after('<p>Width = ' + jbWidth3 + ', InnerWidth = ' + jbInnerWidth3 + ', Outer Width = ' + jbOuterWidth3 + '<p>');
+                
+            });
+        </script>
+    </head>
+    <body>
+        <div class='a'>
+            <p>border 1px, width 500px</p>
+        </div>
+        <div class='b'>
+            <p>border 1px, width 500px, padding 10px</p>
+        </div>
+        <div class='c'>
+            <p>border 1px, width 500px, padding 10px, margin 10px</p>
+        </div>
+    </body>
+</html>
