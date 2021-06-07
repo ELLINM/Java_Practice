@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Javascript</title>
+        <style>
+            body{
+                font-family: Consolas, sans-serif;
+            }
+        </style>
+    </head>
+    <body>
+        <script>
+            var a = 'http://naver.com'
+            var b = encodeURI(a);
+            var c = encodeURIComponent(a);
+            document.write('<p>URI<br>' + a + '</p>');
+            document.write('<p>encodeURI<br>' + b + '</p>');
+            document.write('<p>decodeURI<br>' + decodeURI(b) + '</p>');
+            document.write('<p>eccodeURIComponent<br>' + c + '</p>');
+            document.write('<p>eccodeURIComponent<br>' + eccodeURIComponent(c) + '</p>');
+        </script>
+    </body>
+</html>
