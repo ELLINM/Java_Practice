@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <script>
+            function countRabbits(){
+                for(let i=1; i <= 3; i++){
+                    alert(`토끼 ${i}마리`);
+                }
+            }
+        </script>
+
+        <input type="button" onclick="countRabbits()" value="Count Rabbits">
+        <br>
+        <input id="elem" type="button" value="click">
+        <script>
+            elem.onclick = function(){
+                alert("Thank You");
+            }
+        </script>
+    </body>
+</html>
