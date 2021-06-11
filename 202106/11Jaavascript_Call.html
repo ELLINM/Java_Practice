@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<script>
+    function slow(x){
+        alert(`slow(${x}) call`);
+        return x;
+    }
+
+    function cashingDecorator(func){
+        let cache = new Map();
+
+        return function(x){
+            if (cache.has(x)){ // cache에 해당 키가 있으면
+                return cache.get(x); // 대응하는 값을 cache에서 읽어옴
+            }
+
+            let result = func(x);
+            //else일 경우 func호출 하고 그 결과를 cache에 저장
+            cache.set(x, result);
+            return result;
+        };
+    }
+
+    slow = cashingDecorator(slow);
+
+    alert(slow(1));
+    alert("recall : " + slow(1));
+
+    alert(slow(2));
+    alert("recall : " + slow(2));
+</script>
