@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<script>
+    let worker = {
+        someMethod(){
+            return 1;
+        },
+
+        slow(x){
+            alert(`slow(${x}) call`);
+            return x * this.someMethod(); // this.someMethod()에 접근 실패하면서 에러발생
+        }
+    };
+
+    function cashingDecorator(func){
+        let cache = new Map();
+
+        return function(x){
+            if (cache.has(x)){
+                return cache.get(x);
+            }
+
+            let result = func(x); //래퍼가 기존 함수 func(x)를 호출하면 this가 undefined가 되기 때문
+
+            cache.set(x, result);
+            return result;
+        };
+    }
+
+    alert(worker.slow(1));
+    worker.slow = cashingDecorator(worker.slow);
+    alert(worker.slow(2)); //에러 발생 alert이 작동안함
+</script>
+
+// 수정
+
+<!DOCTYPE html>
+<script>
+    let worker = {
+        someMethod(){
+            return 1;
+        },
+
+        slow(x){
+            alert(`slow(${x}) call`);
+            return x * this.someMethod();
+        }
+    };
+
+    function cashingDecorator(func){
+        let cache = new Map();
+
+        return function(x){
+            if (cache.has(x)){
+                return cache.get(x);
+            }
+
+            let result = func.call(this, x);
+
+            cache.set(x, result);
+            return result;
+        };
+    }
+
+    worker.slow = cashingDecorator(worker.slow);
+    alert(worker.slow(2));
+    alert(worker.slow(2)); // 제대로 동작 다만, 원본 함수가 호출되지 않고 캐시 된 값이 출력
+  /*this 전달과정
+  데코레이터를 적용한 후에 worker.slow는 래퍼 function (x)
+  worker.slow(2)를 실행하면 래퍼는 2를 인수로 받고, this=worker
+  결과가 캐시되지 않은 상황이라면 func.call(this, x)에서 현재 this (=worker)와 인수(=2)를 원본 메서드에 전달
+  */
+</script>
+
+수정 후
+/*
+해결방법
+복수 키를 지원하는 맵과 유사한 자료 구조 구현하기(서드 파티 라이브러리 등을 사용해도 됨)
+중첩 맵을 사용 - (max, result) 쌍 저장은 cache.set(min)으로, result는 cache.get(min).get(max)을 사용
+두 값을 하나로 합치기 - 맵의 키로 문자열 "min,max"를 사용, 여러 값을 하나로 합치는 코드는 해싱 함수(hashing function) 에 구현해 유연성을 높임
+*/
+
+<!DOCTYPE html>
+<body>
+<script>
+    let worker = {
+        slow(min, max){
+            alert(`slow(${min}, ${max}) call`);
+            return min + max;
+        }
+    };
+
+    function cashingDecorator(func, hash){
+        let cache = new Map();
+
+        return function(x){
+            let key = hash(arguments);  //hash가 호출되면서 arguments를 사용한 단일 키 생성
+
+            if (cache.has(key)){
+                return cache.get(key);
+            }
+
+            let result = func.call(this, ...arguments); //func.call(this, ...arguments)를 사용해 컨텍스트(this)와 래퍼가 가진 인수 전부(...arguments)를 기존 함수에 전달
+
+            cache.set(key, result);
+            return result;
+        };
+    }
+
+    function hash(args){
+        return args[0] + ',' + args[1];
+    }
+
+    worker.slow = cashingDecorator(worker.slow, hash);
+    alert(worker.slow(3, 5));
+    alert("recall : " + worker.slow(3, 5));
+</script>
+</body>
